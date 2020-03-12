@@ -576,21 +576,23 @@ class Client extends Socket {
                 $to = $message->getArg( 0 );
                 $text = $message->getArg( 1, '' );
 
-                if( $this->isChannel( $to ) ) {
+                if( $to === $this->nick ) {
+
+                    $this->emit( "pm, pm:$to, pm:$to:$from", array(
+                        'from' => $from,
+                        'to' => $to,
+                        'text' => $text
+                    ) );
+
+                } else {
 
                     $this->emit( "chat, chat:$to, chat:$to:$from", array( 
                         'from' => $from, 
                         'channel' => $to,
                         'text' => $text
                     ) );
-                    break;
-                }
 
-                $this->emit( "pm, pm:$to, pm:$to:$from", array( 
-                    'from' => $from, 
-                    'to' => $to, 
-                    'text' => $text 
-                ) );
+                }
                 break;
             case self::RPL_NAMREPLY:
 
@@ -635,7 +637,7 @@ class Client extends Socket {
                 //correct internal nickname, if given a new one by the server
                 $this->nick = $message->getArg( 0, $this->nick );
 
-                $this->emit( 'welcome' );
+                $this->emit( 'welcome' , array() );
                 break;
             case self::RPL_ISUPPORT:
 
