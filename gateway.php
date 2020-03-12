@@ -66,8 +66,8 @@ $irc->once( 'list', function($e) {
   error_log('Listed '.obj_to_string($e));
 });
 
-$irc->on('join', function($e, $irc) {
-  error_log('Joined channel '.$e->channel);
+$irc->on('join:'.CLIENT_NAME, function($e, $irc) {
+  error_log('Joined channel '.obj_to_string($e));
   slack_send('Joined channel '.$e->channel);
   // annonce yourself if you want
   //$irc->chat($e->channel, 'Now transfering messages to Slack');
