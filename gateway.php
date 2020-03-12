@@ -1,5 +1,9 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 'Off');
+ini_set('log_errors', 'On');
+ini_set('error_log', dirname(__FILE__).'/logs/'.date('Y-m-d').'.log');
 ini_set( 'max_execution_time', 0 );
 
 require_once('config.php');
