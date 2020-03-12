@@ -13,12 +13,17 @@ class Client {
     $this->api_key = $api_key;
   }
 
-  public function post_message($channel, $username, $message) {
+  public function post_message($channel, $username, $message, $icon=null) {
     $url = self::BASE_API.'chat.postMessage';
+    if(empty($icon)) {
+      $md5 = md5($username);
+      $icon = "https://www.gravatar.com/avatar/$md5?d=identicon";
+    }
     $data = array(
       'channel' => $channel,
       'username' => $username,
       'text' => $message,
+      'icon_url' => $icon,
     );
     $headers = array(
       "Authorization: Bearer $this->api_key",
